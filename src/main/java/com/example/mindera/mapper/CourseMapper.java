@@ -1,5 +1,6 @@
 package com.example.mindera.mapper;
 
+import com.example.mindera.dto.CourseCreationDto;
 import com.example.mindera.dto.CourseDto;
 import com.example.mindera.model.Course;
 import org.mapstruct.Mapper;
@@ -14,7 +15,11 @@ public interface CourseMapper {
 
     CourseDto toDto(Course course);
 
+    CourseCreationDto toCreationDto(Course course);
+
     Course toModel(CourseDto courseDto);
+
+    Course toModel(CourseCreationDto courseCreationDto);
 
     List<CourseDto> coursesToCourseDtos(List<Course> courses);
 

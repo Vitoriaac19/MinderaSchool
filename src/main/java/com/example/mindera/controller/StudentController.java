@@ -1,5 +1,6 @@
 package com.example.mindera.controller;
 
+import com.example.mindera.dto.StudentCreationDto;
 import com.example.mindera.dto.StudentDto;
 import com.example.mindera.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +18,34 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/add")
-    public StudentDto addStudent(@RequestBody StudentDto studentDto) {
-        return studentService.addStudent(studentDto);
+    @PostMapping
+    public StudentCreationDto addStudent(@RequestBody StudentCreationDto studentCreationDto) {
+        return studentService.addStudent(studentCreationDto);
     }
 
-    /*
-     @PostMapping
-    public CarDto addNewCar(@RequestBody CarDto carDto) {
-        return carService.addNewCar(carDto);
-    }
-     */
-
-    @GetMapping("/getAll")
+    @GetMapping("/all")
     public List<StudentDto> getAllStudents() {
         return studentService.getAllStudents();
+    }
+
+    @GetMapping("getById/{id}")
+    public StudentDto getByIg(@PathVariable("id") Long id) {
+        return studentService.getById(id);
+    }
+
+   /* @PutMapping("/update/{id}")
+    public StudentDto updateStudent(@PathVariable("id") Long id, @RequestBody StudentDto studentDto) {
+        return studentService.updateStudent(id, studentDto);
+    }*/
+
+    @PutMapping("/{id}/course/{courseId}")
+    public StudentDto addCourse(@PathVariable("id") Long id, @PathVariable("courseId") Long courseId) {
+        return studentService.addCourse(id, courseId);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteStudent(@PathVariable("id") Long id) {
+        studentService.deleteStudent(id);
     }
 
 

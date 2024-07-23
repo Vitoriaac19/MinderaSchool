@@ -2,11 +2,8 @@ package com.example.mindera.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class StudentDto {
+public class StudentCreationDto {
     private Long id;
     private String name;
-    private List<CourseDto> courses;
 }
