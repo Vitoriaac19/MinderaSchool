@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
+    private CourseMapper courseMapper;
 
     @Autowired
     public CourseService(CourseRepository courseRepository) {
@@ -21,11 +22,10 @@ public class CourseService {
     }
 
 
-    public CourseCreationDto createCourse(CourseCreationDto courseCreationDto) {
+    public CourseDto createCourse(CourseCreationDto courseCreationDto) {
         Course course = CourseMapper.INSTANCE.toModel(courseCreationDto);
         courseRepository.save(course);
-        System.out.println("Course created" + course.getId());
-        return CourseMapper.INSTANCE.toCreationDto(course);
+        return CourseMapper.INSTANCE.toDto(course);
     }
 
     public CourseDto getCourseDyoById(Long id) {
@@ -46,16 +46,16 @@ public class CourseService {
         return courseDtos;
     }
 
-    public CourseDto updateCourse(Long id) {
+    public CourseDto updateCourse(Long id, CourseDto courseDto) {
         Course course = courseRepository.findById(id).get();
-        Course newCourse = new Course();
-        newCourse.setId(course.getId());
-        newCourse.setName(course.getName());
-        return CourseMapper.INSTANCE.toDto(newCourse);
+        Course newCourse = CourseMapper.INSTANCE.toModel(courseDto);
+
+        course.setName(newCourse.getName());
+        courseRepository.save(course);
+        return CourseMapper.INSTANCE.toDto(course);
     }
 
     public void deleteCourse(Long id) {
-        Course course = courseRepository.findById(id).get();
-        courseRepository.delete(course);
+        courseRepository.deleteById(id);
     }
 }

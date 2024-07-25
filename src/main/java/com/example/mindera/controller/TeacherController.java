@@ -1,5 +1,6 @@
 package com.example.mindera.controller;
 
+import com.example.mindera.dto.TeacherCreationDto;
 import com.example.mindera.dto.TeacherDto;
 import com.example.mindera.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/mindera/teacher")
+@RequestMapping(path = "/api/v1/teacher")
 public class TeacherController {
 
     private final TeacherService teacherService;
@@ -19,21 +20,26 @@ public class TeacherController {
     }
 
     @PostMapping
-    public TeacherDto createTeacher(TeacherDto teacherDto) {
-        return teacherService.createTeacher(teacherDto);
+    public TeacherDto createTeacher(@RequestBody TeacherCreationDto teacherCreationDto) {
+        return teacherService.createTeacher(teacherCreationDto);
     }
 
-    @GetMapping("/get/{id}")
-    public TeacherDto getTeacherById(@PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public TeacherDto getTeacherById(@PathVariable Long id) {
         return teacherService.getTeacherById(id);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/all")
     public List<TeacherDto> getAllTeachers() {
         return teacherService.getAllTeachers();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/course/{courseId}")
+    public TeacherDto addCourseToTeacher(@PathVariable("id") Long id, @PathVariable("courseId") Long courseId) {
+        return teacherService.addCourseToTeacher(id, courseId);
+    }
+
+    @PatchMapping("/update/{id}")
     public TeacherDto updateTeacher(@PathVariable("id") Long id, @RequestBody TeacherDto teacherDto) {
         return teacherService.updateTeacher(id, teacherDto);
     }

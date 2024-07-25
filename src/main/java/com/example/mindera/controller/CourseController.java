@@ -19,7 +19,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public CourseCreationDto createCourse(@RequestBody CourseCreationDto courseCreationDto) {
+    public CourseDto createCourse(@RequestBody CourseCreationDto courseCreationDto) {
         return courseService.createCourse(courseCreationDto);
     }
 
@@ -28,14 +28,14 @@ public class CourseController {
         return courseService.getCourseDyoById(id);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/all")
     public List<CourseDto> getAllCourses() {
         return courseService.getAllCourses();
     }
 
     @PutMapping("/update/{id}")
     public CourseDto updateCourse(@PathVariable("id") Long id, @RequestBody CourseDto courseDto) {
-        return courseService.updateCourse(id);
+        return courseService.updateCourse(id, courseDto);
     }
 
     @DeleteMapping("/delete/{id}")

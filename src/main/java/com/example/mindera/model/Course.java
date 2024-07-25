@@ -21,5 +21,9 @@ public class Course {
             cascade = CascadeType.ALL)
     private List<Student> students = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "courses",
+            cascade = CascadeType.ALL)
+    private List<Teacher> teachers = new ArrayList<>();
+
 
 }

@@ -27,10 +27,10 @@ public class StudentService {
         this.courseService = courseService;
     }
 
-    public StudentCreationDto addStudent(StudentCreationDto studentCreationDto) {
+    public StudentDto addStudent(StudentCreationDto studentCreationDto) {
         Student student = studentMapper.INSTANCE.toModel(studentCreationDto);
         studentRepository.save(student);
-        return studentMapper.INSTANCE.toCreationDto(student);
+        return studentMapper.INSTANCE.toDto(student);
     }
 
     public List<StudentDto> getAllStudents() {
@@ -43,19 +43,12 @@ public class StudentService {
         return studentMapper.INSTANCE.toDto(student.get());
     }
 
-    public StudentDto updateStudent(Long id, StudentDto studentDto) {
+    public StudentDto updateStudentName(Long id, StudentDto studentDto) {
         Student student = studentRepository.findById(id).get();
-        Student newStudent = studentMapper.INSTANCE.toModel(studentDto);
-        ;
-        newStudent.setId(student.getId());
-        newStudent.setName(student.getName());
-        studentRepository.save(newStudent);
-        return studentMapper.INSTANCE.toDto(newStudent);
-    }
-
-    public void deleteStudent(Long id) {
-        Student student = studentRepository.findById(id).get();
-        studentRepository.delete(student);
+        Student newStudent = StudentMapper.INSTANCE.toModel(studentDto);
+        student.setName(newStudent.getName());
+        studentRepository.save(student);
+        return StudentMapper.INSTANCE.toDto(student);
     }
 
     public StudentDto addCourse(Long id, Long courseId) {
@@ -65,4 +58,9 @@ public class StudentService {
         studentRepository.save(student);
         return studentMapper.INSTANCE.toDto(student);
     }
+
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
+    }
+
 }

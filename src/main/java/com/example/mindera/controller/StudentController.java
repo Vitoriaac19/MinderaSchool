@@ -19,7 +19,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public StudentCreationDto addStudent(@RequestBody StudentCreationDto studentCreationDto) {
+    public StudentDto addStudent(@RequestBody StudentCreationDto studentCreationDto) {
         return studentService.addStudent(studentCreationDto);
     }
 
@@ -28,15 +28,15 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("getById/{id}")
+    @GetMapping("/{id}")
     public StudentDto getByIg(@PathVariable("id") Long id) {
         return studentService.getById(id);
     }
 
-   /* @PutMapping("/update/{id}")
-    public StudentDto updateStudent(@PathVariable("id") Long id, @RequestBody StudentDto studentDto) {
-        return studentService.updateStudent(id, studentDto);
-    }*/
+    @PatchMapping("/update-student-name/{id}")
+    public StudentDto updateStudentName(@PathVariable("id") Long id, @RequestBody StudentDto studentDto) {
+        return studentService.updateStudentName(id, studentDto);
+    }
 
     @PutMapping("/{id}/course/{courseId}")
     public StudentDto addCourse(@PathVariable("id") Long id, @PathVariable("courseId") Long courseId) {
