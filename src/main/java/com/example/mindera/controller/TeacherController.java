@@ -4,6 +4,8 @@ import com.example.mindera.dto.TeacherCreationDto;
 import com.example.mindera.dto.TeacherDto;
 import com.example.mindera.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,32 +22,33 @@ public class TeacherController {
     }
 
     @PostMapping
-    public TeacherDto createTeacher(@RequestBody TeacherCreationDto teacherCreationDto) {
-        return teacherService.createTeacher(teacherCreationDto);
+    public ResponseEntity<TeacherDto> createTeacher(@RequestBody TeacherCreationDto teacherCreationDto) {
+        return new ResponseEntity<>(teacherService.createTeacher(teacherCreationDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public TeacherDto getTeacherById(@PathVariable Long id) {
-        return teacherService.getTeacherById(id);
+    public ResponseEntity<TeacherDto> getTeacherById(@PathVariable Long id) {
+        return new ResponseEntity<>(teacherService.getTeacherById(id), HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public List<TeacherDto> getAllTeachers() {
-        return teacherService.getAllTeachers();
+    public ResponseEntity<List<TeacherDto>> getAllTeachers() {
+        return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/course/{courseId}")
-    public TeacherDto addCourseToTeacher(@PathVariable("id") Long id, @PathVariable("courseId") Long courseId) {
-        return teacherService.addCourseToTeacher(id, courseId);
+    public ResponseEntity<TeacherDto> addCourseToTeacher(@PathVariable("id") Long id, @PathVariable("courseId") Long courseId) {
+        return new ResponseEntity<>(teacherService.addCourseToTeacher(id, courseId), HttpStatus.OK);
     }
 
     @PatchMapping("/update/{id}")
-    public TeacherDto updateTeacher(@PathVariable("id") Long id, @RequestBody TeacherDto teacherDto) {
-        return teacherService.updateTeacher(id, teacherDto);
+    public ResponseEntity<TeacherDto> updateTeacher(@PathVariable("id") Long id, @RequestBody TeacherDto teacherDto) {
+        return new ResponseEntity<>(teacherService.updateTeacher(id, teacherDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteTeacher(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteTeacher(@PathVariable("id") Long id) {
         teacherService.deleteTeacher(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

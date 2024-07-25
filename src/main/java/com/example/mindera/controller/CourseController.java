@@ -4,6 +4,8 @@ import com.example.mindera.dto.CourseCreationDto;
 import com.example.mindera.dto.CourseDto;
 import com.example.mindera.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,28 +21,29 @@ public class CourseController {
     }
 
     @PostMapping
-    public CourseDto createCourse(@RequestBody CourseCreationDto courseCreationDto) {
-        return courseService.createCourse(courseCreationDto);
+    public ResponseEntity<CourseDto> createCourse(@RequestBody CourseCreationDto courseCreationDto) {
+        return new ResponseEntity<>(courseService.createCourse(courseCreationDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public CourseDto getCourseById(@PathVariable("id") Long id) {
-        return courseService.getCourseDyoById(id);
+    public ResponseEntity<CourseDto> getCourseById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(courseService.getCourseDtoById(id), HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public List<CourseDto> getAllCourses() {
-        return courseService.getAllCourses();
+    public ResponseEntity<List<CourseDto>> getAllCourses() {
+        return new ResponseEntity<>(courseService.getAllCourses(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public CourseDto updateCourse(@PathVariable("id") Long id, @RequestBody CourseDto courseDto) {
-        return courseService.updateCourse(id, courseDto);
+    public ResponseEntity<CourseDto> updateCourse(@PathVariable("id") Long id, @RequestBody CourseDto courseDto) {
+        return new ResponseEntity<>(courseService.updateCourse(id, courseDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteCourse(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteCourse(@PathVariable("id") Long id) {
         courseService.deleteCourse(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

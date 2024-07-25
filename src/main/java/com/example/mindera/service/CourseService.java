@@ -2,6 +2,7 @@ package com.example.mindera.service;
 
 import com.example.mindera.dto.CourseCreationDto;
 import com.example.mindera.dto.CourseDto;
+import com.example.mindera.exception.CourseException;
 import com.example.mindera.mapper.CourseMapper;
 import com.example.mindera.model.Course;
 import com.example.mindera.repository.CourseRepository;
@@ -21,14 +22,47 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
+    private static void validateGetCourseDtoById(Long id) {
+        if (id == null) {
+            throw new CourseException("Course id is required");
+        }
+        if (id <= 0) {
+            throw new CourseException("Course id must be greater than 0");
+        }
+    }
+
+    private static void validateUpdateCourse(Long id, CourseDto courseDto) {
+        if (id == null) {
+            throw new CourseException("Course id is required");
+        }
+        if (id <= 0) {
+            throw new CourseException("Course id must be greater than 0");
+        }
+        if (courseDto.getName() == null || courseDto.getName().isEmpty()) {
+            throw new CourseException("Name is required");
+        }
+    }
+
+    private static void validateDeleteCourse(Long id) {
+        if (id == null) {
+            throw new CourseException("Course id is required");
+        }
+        if (id <= 0) {
+            throw new CourseException("Course id must be greater than 0");
+        }
+    }
 
     public CourseDto createCourse(CourseCreationDto courseCreationDto) {
+        if (courseCreationDto.getName() == null || courseCreationDto.getName().isEmpty()) {
+            throw new CourseException("Name is required");
+        }
         Course course = CourseMapper.INSTANCE.toModel(courseCreationDto);
         courseRepository.save(course);
         return CourseMapper.INSTANCE.toDto(course);
     }
 
-    public CourseDto getCourseDyoById(Long id) {
+    public CourseDto getCourseDtoById(Long id) {
+        validateGetCourseDtoById(id);
         Course course = courseRepository.findById(id).get();
         return CourseMapper.INSTANCE.toDto(course);
     }
@@ -47,6 +81,7 @@ public class CourseService {
     }
 
     public CourseDto updateCourse(Long id, CourseDto courseDto) {
+        validateUpdateCourse(id, courseDto);
         Course course = courseRepository.findById(id).get();
         Course newCourse = CourseMapper.INSTANCE.toModel(courseDto);
 
@@ -56,6 +91,7 @@ public class CourseService {
     }
 
     public void deleteCourse(Long id) {
+        validateDeleteCourse(id);
         courseRepository.deleteById(id);
     }
 }
