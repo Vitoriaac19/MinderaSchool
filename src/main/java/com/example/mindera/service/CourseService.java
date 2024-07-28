@@ -58,7 +58,7 @@ public class CourseService {
         }
         Course course = CourseMapper.INSTANCE.toModel(courseCreationDto);
         courseRepository.save(course);
-        return CourseMapper.INSTANCE.toDto(course);
+        return courseMapper.INSTANCE.toDto(course);
     }
 
     public CourseDto getCourseDtoById(Long id) {
@@ -93,5 +93,9 @@ public class CourseService {
     public void deleteCourse(Long id) {
         validateDeleteCourse(id);
         courseRepository.deleteById(id);
+    }
+
+    public void deleteAllCourses() {
+        courseRepository.deleteAll();
     }
 }

@@ -3,6 +3,7 @@ package com.example.mindera.controller;
 import com.example.mindera.dto.StudentCreationDto;
 import com.example.mindera.dto.StudentDto;
 import com.example.mindera.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/mindera/student")
+@RequestMapping(path = "/api/v1/students")
 public class StudentController {
     private final StudentService studentService;
 
@@ -21,7 +22,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<StudentDto> addStudent(@RequestBody StudentCreationDto studentCreationDto) {
+    public ResponseEntity<StudentDto> addStudent(@Valid @RequestBody StudentCreationDto studentCreationDto) {
         return new ResponseEntity<>(studentService.addStudent(studentCreationDto), HttpStatus.CREATED);
     }
 

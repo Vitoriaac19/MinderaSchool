@@ -117,4 +117,7 @@ public class TeacherService {
         teacherRepository.deleteById(id);
     }
 
+    public void deleteAllTeachers() {
+        teacherRepository.deleteAll();
+    }
 }

@@ -25,5 +25,10 @@ public class Course {
             cascade = CascadeType.ALL)
     private List<Teacher> teachers = new ArrayList<>();
 
+    public Course(String name) {
+        this.name = name;
+    }
 
+    public Course() {
+    }
 }

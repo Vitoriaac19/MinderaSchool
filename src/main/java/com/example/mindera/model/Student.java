@@ -23,4 +23,13 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> courses = new ArrayList<>();
+
+  /*  public Student(String name) {
+        this.name = name;
+    }
+
+    public Student(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }*/
 }

@@ -3,7 +3,6 @@ package com.example.mindera.service;
 import com.example.mindera.dto.StudentCreationDto;
 import com.example.mindera.dto.StudentDto;
 import com.example.mindera.exception.StudentException;
-import com.example.mindera.mapper.StudentConverter;
 import com.example.mindera.mapper.StudentMapper;
 import com.example.mindera.model.Course;
 import com.example.mindera.model.Student;
@@ -18,13 +17,11 @@ import java.util.Optional;
 public class StudentService {
     private final StudentRepository studentRepository;
     private StudentMapper studentMapper;
-    private StudentConverter studentConverter;
     private CourseService courseService;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, StudentConverter studentConverter, CourseService courseService) {
+    public StudentService(StudentRepository studentRepository, CourseService courseService) {
         this.studentRepository = studentRepository;
-        this.studentConverter = studentConverter;
         this.courseService = courseService;
     }
 
@@ -104,7 +101,7 @@ public class StudentService {
 
     public StudentDto addCourse(Long id, Long courseId) {
         validateAddCourse(id, courseId);
-        Student student = studentRepository.findById(id).get();
+        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentException("Student not found"));
         Course course = courseService.getCourseById(courseId);
         student.getCourses().add(course);
         studentRepository.save(student);
@@ -116,4 +113,7 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
+    public void deleteAllStudents() {
+        studentRepository.deleteAll();
+    }
 }
